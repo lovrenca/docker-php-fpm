@@ -2,11 +2,19 @@
 FROM debian
 MAINTAINER Lovrenc Avsenek <a.lovrenc@gmail.com>
 
+ENV DEBIAN_FRONTEND noninteractive
+#Set repos
+RUN echo 'deb http://packages.dotdeb.org wheezy-php55 all' >> /etc/apt/sources.list; \
+echo 'deb-src http://packages.dotdeb.org wheezy-php55 all' >> /etc/apt/sources.list
+
+ADD http://www.dotdeb.org/dotdeb.gpg /tmp/dotdeb.gpg
+RUN apt-key add /tmp/dotdeb.gpg; \
+    rm /tmp/dotdeb.gpg
 # Instaling package and clean up the mess
 RUN apt-get update --yes && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get -y install \
-        php5 \
+        php5=5.5.* \
         php5-cli \
         php5-common \
         php5-curl \
